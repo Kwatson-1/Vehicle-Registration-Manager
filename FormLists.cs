@@ -9,8 +9,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-// WARNING no error trapping!
-// This code could be used in the Project
+// Kyle Watson
+// 8/11/2021
 namespace MyLists
 {
     public partial class FormLists : Form
