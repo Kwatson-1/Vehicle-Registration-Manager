@@ -19,30 +19,33 @@ namespace MyLists
         {
             InitializeComponent();
         }
-        List<string> ColourList = new List<string>() { "1FBK-235", "1CKR-085", "1GEU-069", "1YOB-758", "1KAP-084", "1APR-016", "3DYX-773" };
+        List<string> RegoList = new List<string>() { "1FBK-235", "1CKR-085", "1GEU-069", "1YOB-758", "1KAP-084", "1APR-016", "3DYX-773" };
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
-            ColourList.Sort();
-            foreach (var color in ColourList)
+            RegoList.Sort();
+            foreach (var color in RegoList)
             {
                 listBoxDisplay.Items.Add(color);
             }
         }
+        #region Search
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            ColourList.Sort();
-            if (ColourList.BinarySearch(textBoxInput.Text) >= 0)
+            RegoList.Sort();
+            if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
                 MessageBox.Show("found");
             else
                 MessageBox.Show("Not Found");
             textBoxInput.Clear();
         }
+        #endregion
+        #region Add
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             if (textBoxInput.Text != string.Empty)
             {
-                ColourList.Add(textBoxInput.Text);
+                RegoList.Add(textBoxInput.Text);
                 DisplayList();
                 textBoxInput.Clear();
             }
@@ -50,16 +53,19 @@ namespace MyLists
             {
                 MessageBox.Show("Please enter a valid rego plate.");
             }
-        }        
+        }
+        #endregion
+        #region Delete
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-            ColourList.RemoveAt(listBoxDisplay.SelectedIndex);
+            RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
             DisplayList();
         }
+        #endregion
         private void buttonOpen_Click(object sender, EventArgs e)
         {
-            string fileName = "Rainbow.bin";
+            string fileName = "demo_nn.txt";
             OpenFileDialog OpenBinary = new OpenFileDialog();
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
@@ -68,13 +74,13 @@ namespace MyLists
             }
             try
             {
-                ColourList.Clear();
+                RegoList.Clear();
                 using (Stream stream = File.Open(fileName, FileMode.Open))
                 {
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
                     while (stream.Position < stream.Length)
                     {
-                        ColourList.Add((string)binaryFormatter.Deserialize(stream));
+                        RegoList.Add((string)binaryFormatter.Deserialize(stream));
                     }
                 }
                 DisplayList();
@@ -84,6 +90,7 @@ namespace MyLists
                 MessageBox.Show("cannot open file");
             }
         }
+        #region Save
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string fileName = "Rainbow.bin";
@@ -102,7 +109,7 @@ namespace MyLists
                 using (Stream stream = File.Open(fileName, FileMode.Create))
                 {
                     BinaryFormatter binFormatter = new BinaryFormatter();
-                    foreach (var item in ColourList)
+                    foreach (var item in RegoList)
                     {
                         binFormatter.Serialize(stream, item);
                     }
@@ -113,6 +120,7 @@ namespace MyLists
                 MessageBox.Show("cannot save file");
             }
         }
+        #endregion
         private void FormLists_Load(object sender, EventArgs e)
         {
             DisplayList();
