@@ -19,7 +19,7 @@ namespace MyLists
         {
             InitializeComponent();
         }
-        List<string> ColourList = new List<string>() {"Yellow", "Red", "Green", "Blue", "Orange", "Amber", "Canary" };
+        List<string> ColourList = new List<string>() { "1FBK-235", "1CKR-085", "1GEU-069", "1YOB-758", "1KAP-084", "1APR-016", "3DYX-773" };
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
@@ -40,9 +40,16 @@ namespace MyLists
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            ColourList.Add(textBoxInput.Text);
-            DisplayList();
-            textBoxInput.Clear();
+            if (textBoxInput.Text != string.Empty)
+            {
+                ColourList.Add(textBoxInput.Text);
+                DisplayList();
+                textBoxInput.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid rego plate.");
+            }
         }        
         private void buttonDelete_Click(object sender, EventArgs e)
         {
