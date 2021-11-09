@@ -30,7 +30,7 @@ namespace MyLists
             }
         }
         #region Search
-        private void buttonSearch_Click(object sender, EventArgs e)
+        private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
             if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
@@ -43,21 +43,30 @@ namespace MyLists
         #region Add
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (textBoxInput.Text != string.Empty)
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            if (!alreadyExists)
             {
-                RegoList.Add(textBoxInput.Text);
-                DisplayList();
-                textBoxInput.Clear();
+                if (textBoxInput.Text != string.Empty)
+                {
+                    RegoList.Add(textBoxInput.Text);
+                    DisplayList();
+                    textBoxInput.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid rego plate.");
+                }
+                textBoxInput.Focus();
             }
             else
             {
-                MessageBox.Show("Please enter a valid rego plate.");
+                statusStrip.Text = "Cannot enter a duplicate item into the list.";
+                textBoxInput.Clear();
             }
-            textBoxInput.Focus();
         }
         #endregion
         #region Delete
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void ButtonDelete_Click(object sender, EventArgs e)
         {
             bool isEmpty = !RegoList.Any();
             if (listBoxDisplay.SelectedIndex != -1)
@@ -81,7 +90,7 @@ namespace MyLists
         }
         #endregion
         #region Open
-        private void buttonOpen_Click(object sender, EventArgs e)
+        private void ButtonOpen_Click(object sender, EventArgs e)
         {
             string fileName = "demo_00.txt";
             OpenFileDialog OpenBinary = new OpenFileDialog();
@@ -145,7 +154,7 @@ namespace MyLists
             DisplayList();
         }
 
-        private void listBoxDisplay_MouseClick(object sender, MouseEventArgs e)
+        private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             if (listBoxDisplay.SelectedIndex != -1)
             {
@@ -154,7 +163,7 @@ namespace MyLists
             }
         }
         #region Double click delete
-        private void listBoxDisplay_DoubleClick(object sender, EventArgs e)
+        private void ListBoxDisplay_DoubleClick(object sender, EventArgs e)
         {
             bool isEmpty = !RegoList.Any();
             DialogResult dialogResult = MessageBox.Show("Do you want to delete this item?", "Delete Confirmation", MessageBoxButtons.YesNo);
@@ -186,12 +195,34 @@ namespace MyLists
 
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        private void ButtonEdit_Click(object sender, EventArgs e)
         {
+            
             String NewValue = textBoxInput.Text;
             int RegoIndex = listBoxDisplay.SelectedIndex;
-            RegoList[RegoIndex] = NewValue;
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            if (!alreadyExists)
+            {
+                RegoList[RegoIndex] = NewValue;
+                DisplayList();
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+            }
+            else
+            {
+                statusStrip.Text = "Cannot enter a duplicate item into the list.";
+                textBoxInput.Clear();
+            }
+
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            RegoList.Clear();
             DisplayList();
+            textBoxInput.Clear();
+            textBoxInput.Focus();
+            statusStrip.Text = "Application reset successfully.";
         }
         #endregion
         //Path.GetFileNameWithoutExtensions(currentFileName);

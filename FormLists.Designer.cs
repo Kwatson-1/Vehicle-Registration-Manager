@@ -54,8 +54,8 @@ namespace MyLists
             this.listBoxDisplay.Name = "listBoxDisplay";
             this.listBoxDisplay.Size = new System.Drawing.Size(222, 446);
             this.listBoxDisplay.TabIndex = 0;
-            this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBoxDisplay_MouseClick);
-            this.listBoxDisplay.DoubleClick += new System.EventHandler(this.listBoxDisplay_DoubleClick);
+            this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseClick);
+            this.listBoxDisplay.DoubleClick += new System.EventHandler(this.ListBoxDisplay_DoubleClick);
             // 
             // textBoxInput
             // 
@@ -72,7 +72,7 @@ namespace MyLists
             this.buttonBinarySearch.TabIndex = 2;
             this.buttonBinarySearch.Text = "Binary Search";
             this.buttonBinarySearch.UseVisualStyleBackColor = true;
-            this.buttonBinarySearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            this.buttonBinarySearch.Click += new System.EventHandler(this.ButtonSearch_Click);
             // 
             // buttonAdd
             // 
@@ -92,7 +92,7 @@ namespace MyLists
             this.buttonOpen.TabIndex = 4;
             this.buttonOpen.Text = "Open";
             this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
             // buttonSave
             // 
@@ -112,7 +112,7 @@ namespace MyLists
             this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
             // buttonReset
             // 
@@ -122,6 +122,7 @@ namespace MyLists
             this.buttonReset.TabIndex = 7;
             this.buttonReset.Text = "Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
             // buttonLinearSearch
             // 
@@ -140,7 +141,7 @@ namespace MyLists
             this.buttonEdit.TabIndex = 9;
             this.buttonEdit.Text = "Edit";
             this.buttonEdit.UseVisualStyleBackColor = true;
-            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            this.buttonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
             // buttonTag
             // 
