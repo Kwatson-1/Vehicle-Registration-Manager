@@ -9,50 +9,90 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-// WARNING no error trapping!
-// This code could be used in the Project
+// Kyle Watson
+// 8/11/2021
 namespace MyLists
 {
-    public partial class FormLists : Form
+    public partial class VehicleRegistrationManager : Form
     {
-        public FormLists()
+        public VehicleRegistrationManager()
         {
             InitializeComponent();
         }
-        List<string> ColourList = new List<string>() {"Yellow", "Red", "Green", "Blue", "Orange", "Amber", "Canary" };
+        List<string> RegoList = new List<string>();
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
-            ColourList.Sort();
-            foreach (var color in ColourList)
+            RegoList.Sort();
+            foreach (var color in RegoList)
             {
                 listBoxDisplay.Items.Add(color);
             }
         }
-        private void buttonSearch_Click(object sender, EventArgs e)
+        #region Binary Search
+        private void ButtonSearch_Click(object sender, EventArgs e)
         {
-            ColourList.Sort();
-            if (ColourList.BinarySearch(textBoxInput.Text) >= 0)
-                MessageBox.Show("found");
+            RegoList.Sort();
+            if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
+                MessageBox.Show("Plate found.");
             else
-                MessageBox.Show("Not Found");
-            textBoxInput.Clear();
+                MessageBox.Show("Plate not Found.");
+                textBoxInput.Clear();
         }
-        private void buttonAdd_Click(object sender, EventArgs e)
+        #endregion
+        #region Add
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            ColourList.Add(textBoxInput.Text);
-            DisplayList();
-            textBoxInput.Clear();
-        }        
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-            ColourList.RemoveAt(listBoxDisplay.SelectedIndex);
-            DisplayList();
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            if (!alreadyExists)
+            {
+                if (textBoxInput.Text != string.Empty)
+                {
+                    RegoList.Add(textBoxInput.Text);
+                    DisplayList();
+                    textBoxInput.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid rego plate.");
+                }
+                textBoxInput.Focus();
+            }
+            else
+            {
+                statusStrip.Text = "Cannot enter a duplicate item into the list.";
+                textBoxInput.Clear();
+            }
         }
-        private void buttonOpen_Click(object sender, EventArgs e)
+        #endregion
+        #region Delete
+        private void ButtonDelete_Click(object sender, EventArgs e)
         {
-            string fileName = "Rainbow.bin";
+            bool isEmpty = !RegoList.Any();
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                statusStrip.Text = "Item deleted successfully.";
+                DisplayList();
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+
+            }
+            else if (isEmpty)
+            {
+                statusStrip.Text = "There are currently no items in the list to delete.";
+            }
+            else
+            {
+                statusStrip.Text = "Please select a valid item from the list box.";
+            }
+        }
+        #endregion
+        #region Open
+        private void ButtonOpen_Click(object sender, EventArgs e)
+        {
+            string fileName = "demo_00.txt";
             OpenFileDialog OpenBinary = new OpenFileDialog();
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
@@ -61,22 +101,24 @@ namespace MyLists
             }
             try
             {
-                ColourList.Clear();
+                RegoList.Clear();
                 using (Stream stream = File.Open(fileName, FileMode.Open))
                 {
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
                     while (stream.Position < stream.Length)
                     {
-                        ColourList.Add((string)binaryFormatter.Deserialize(stream));
+                        RegoList.Add((string)binaryFormatter.Deserialize(stream));
                     }
                 }
                 DisplayList();
             }
             catch (IOException)
             {
-                MessageBox.Show("cannot open file");
+                MessageBox.Show("Cannot open file");
             }
         }
+        #endregion
+        #region Save
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string fileName = "Rainbow.bin";
@@ -95,7 +137,7 @@ namespace MyLists
                 using (Stream stream = File.Open(fileName, FileMode.Create))
                 {
                     BinaryFormatter binFormatter = new BinaryFormatter();
-                    foreach (var item in ColourList)
+                    foreach (var item in RegoList)
                     {
                         binFormatter.Serialize(stream, item);
                     }
@@ -106,9 +148,111 @@ namespace MyLists
                 MessageBox.Show("cannot save file");
             }
         }
+        #endregion
         private void FormLists_Load(object sender, EventArgs e)
         {
             DisplayList();
         }
+
+        private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                textBoxInput.Text = listBoxDisplay.SelectedItem.ToString();
+                textBoxInput.Select();
+            }
+        }
+        #region Double click delete
+        private void ListBoxDisplay_DoubleClick(object sender, EventArgs e)
+        {
+            bool isEmpty = !RegoList.Any();
+            DialogResult dialogResult = MessageBox.Show("Do you want to delete this item?", "Delete Confirmation", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (listBoxDisplay.SelectedIndex != -1)
+                {
+                    listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                    RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                    statusStrip.Text = "Item deleted successfully.";
+                    DisplayList();
+                    textBoxInput.Clear();
+                    textBoxInput.Focus();
+
+                }
+                else if (isEmpty)
+                {
+                    statusStrip.Text = "There are currently no items in the list to delete.";
+                }
+                else
+                {
+                    statusStrip.Text = "Please select a valid item from the list box.";
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+
+            }
+
+        }
+
+        private void ButtonEdit_Click(object sender, EventArgs e)
+        {
+            
+            String NewValue = textBoxInput.Text;
+            int RegoIndex = listBoxDisplay.SelectedIndex;
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            if (!alreadyExists)
+            {
+                RegoList[RegoIndex] = NewValue;
+                DisplayList();
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+            }
+            else
+            {
+                statusStrip.Text = "Cannot enter a duplicate item into the list.";
+                textBoxInput.Clear();
+            }
+
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            RegoList.Clear();
+            DisplayList();
+            textBoxInput.Clear();
+            textBoxInput.Focus();
+            statusStrip.Text = "Application reset successfully.";
+        }
+
+        private void ButtonLinearSearch_Click(object sender, EventArgs e)
+        {
+            foreach(String element in RegoList)
+            {
+                if(textBoxInput.Text == element)
+                {
+                    MessageBox.Show("Plate found.");
+                    return;
+                }
+            }
+            MessageBox.Show("Plate not Found.");
+            textBoxInput.Clear();
+            textBoxInput.Focus();
+        }
+        #endregion
+        //Path.GetFileNameWithoutExtensions(currentFileName);
+        //string strnumy = currentFileName.Remove(0,5)
+        //int num = int.Parse(strnumy)
+        //num++
+        //String newValue
+        //if(num < 9)
+        //newValue = "0" + num.ToString();
+        //else
+        //newValue = num.ToString();
+        //String newfilename = "demo_" + newValue + ".txt"
+        //SaveTextFile(newFileName)
+
+        //path.getdirectoryname(application.executablePath);
     }
+
 }
