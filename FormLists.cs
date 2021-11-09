@@ -59,7 +59,25 @@ namespace MyLists
         #region Delete
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            Delete();
+            bool isEmpty = !RegoList.Any();
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                statusStrip.Text = "Item deleted successfully.";
+                DisplayList();
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+
+            }
+            else if (isEmpty)
+            {
+                statusStrip.Text = "There are currently no items in the list to delete.";
+            }
+            else
+            {
+                statusStrip.Text = "Please select a valid item from the list box.";
+            }
         }
         #endregion
         #region Open
@@ -135,31 +153,47 @@ namespace MyLists
                 textBoxInput.Select();
             }
         }
-
+        #region Double click delete
         private void listBoxDisplay_DoubleClick(object sender, EventArgs e)
         {
-            Delete();
-        }
-        private void Delete()
-        {
             bool isEmpty = !RegoList.Any();
-            if (listBoxDisplay.SelectedIndex != -1)
+            DialogResult dialogResult = MessageBox.Show("Do you want to delete this item?", "Delete Confirmation", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                DisplayList();
-                textBoxInput.Clear();
-                textBoxInput.Focus();
+                if (listBoxDisplay.SelectedIndex != -1)
+                {
+                    listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                    RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                    statusStrip.Text = "Item deleted successfully.";
+                    DisplayList();
+                    textBoxInput.Clear();
+                    textBoxInput.Focus();
+
+                }
+                else if (isEmpty)
+                {
+                    statusStrip.Text = "There are currently no items in the list to delete.";
+                }
+                else
+                {
+                    statusStrip.Text = "Please select a valid item from the list box.";
+                }
             }
-            else if (isEmpty)
+            else if (dialogResult == DialogResult.No)
             {
-                statusStrip.Text = ("There is currently no items in the list to delete.");
+
             }
-            else
-            {
-                statusStrip.Text = ("Please select a valid item from the list box.");
-            }
+
         }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            String NewValue = textBoxInput.Text;
+            int RegoIndex = listBoxDisplay.SelectedIndex;
+            RegoList[RegoIndex] = NewValue;
+            DisplayList();
+        }
+        #endregion
         //Path.GetFileNameWithoutExtensions(currentFileName);
         //string strnumy = currentFileName.Remove(0,5)
         //int num = int.Parse(strnumy)
@@ -171,6 +205,8 @@ namespace MyLists
         //newValue = num.ToString();
         //String newfilename = "demo_" + newValue + ".txt"
         //SaveTextFile(newFileName)
+
+        //path.getdirectoryname(application.executablePath);
     }
-    
+
 }

@@ -31,18 +31,18 @@ namespace MyLists
         {
             this.listBoxDisplay = new System.Windows.Forms.ListBox();
             this.textBoxInput = new System.Windows.Forms.TextBox();
-            this.buttonSearch = new System.Windows.Forms.Button();
+            this.buttonBinarySearch = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.buttonLinearSearch = new System.Windows.Forms.Button();
+            this.buttonEdit = new System.Windows.Forms.Button();
+            this.buttonTag = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -64,15 +64,15 @@ namespace MyLists
             this.textBoxInput.Size = new System.Drawing.Size(412, 20);
             this.textBoxInput.TabIndex = 1;
             // 
-            // buttonSearch
+            // buttonBinarySearch
             // 
-            this.buttonSearch.Location = new System.Drawing.Point(359, 332);
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(75, 75);
-            this.buttonSearch.TabIndex = 2;
-            this.buttonSearch.Text = "Binary Search";
-            this.buttonSearch.UseVisualStyleBackColor = true;
-            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            this.buttonBinarySearch.Location = new System.Drawing.Point(359, 332);
+            this.buttonBinarySearch.Name = "buttonBinarySearch";
+            this.buttonBinarySearch.Size = new System.Drawing.Size(75, 75);
+            this.buttonBinarySearch.TabIndex = 2;
+            this.buttonBinarySearch.Text = "Binary Search";
+            this.buttonBinarySearch.UseVisualStyleBackColor = true;
+            this.buttonBinarySearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // buttonAdd
             // 
@@ -114,41 +114,42 @@ namespace MyLists
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
-            // button1
+            // buttonReset
             // 
-            this.button1.Location = new System.Drawing.Point(265, 425);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 75);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Reset";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonReset.Location = new System.Drawing.Point(265, 425);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(75, 75);
+            this.buttonReset.TabIndex = 7;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // buttonLinearSearch
             // 
-            this.button2.Location = new System.Drawing.Point(265, 332);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 75);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Linear Search";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonLinearSearch.Location = new System.Drawing.Point(265, 332);
+            this.buttonLinearSearch.Name = "buttonLinearSearch";
+            this.buttonLinearSearch.Size = new System.Drawing.Size(75, 75);
+            this.buttonLinearSearch.TabIndex = 8;
+            this.buttonLinearSearch.Text = "Linear Search";
+            this.buttonLinearSearch.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // buttonEdit
             // 
-            this.button3.Location = new System.Drawing.Point(265, 239);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 75);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Edit";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonEdit.Location = new System.Drawing.Point(265, 239);
+            this.buttonEdit.Name = "buttonEdit";
+            this.buttonEdit.Size = new System.Drawing.Size(75, 75);
+            this.buttonEdit.TabIndex = 9;
+            this.buttonEdit.Text = "Edit";
+            this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
-            // button4
+            // buttonTag
             // 
-            this.button4.Location = new System.Drawing.Point(359, 239);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 75);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Tag";
-            this.button4.UseVisualStyleBackColor = true;
+            this.buttonTag.Location = new System.Drawing.Point(359, 239);
+            this.buttonTag.Name = "buttonTag";
+            this.buttonTag.Size = new System.Drawing.Size(75, 75);
+            this.buttonTag.TabIndex = 10;
+            this.buttonTag.Text = "Tag";
+            this.buttonTag.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
             // 
@@ -160,6 +161,11 @@ namespace MyLists
             this.statusStrip1.TabIndex = 11;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(0, 17);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::MyLists.Properties.Resources.Logo1;
@@ -169,12 +175,6 @@ namespace MyLists
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // statusStrip
-            // 
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(70, 17);
-            this.statusStrip.Text = "Status Label";
-            // 
             // FormLists
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -182,15 +182,15 @@ namespace MyLists
             this.ClientSize = new System.Drawing.Size(457, 551);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonTag);
+            this.Controls.Add(this.buttonEdit);
+            this.Controls.Add(this.buttonLinearSearch);
+            this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.buttonSearch);
+            this.Controls.Add(this.buttonBinarySearch);
             this.Controls.Add(this.textBoxInput);
             this.Controls.Add(this.listBoxDisplay);
             this.Name = "FormLists";
@@ -208,15 +208,15 @@ namespace MyLists
 
         private System.Windows.Forms.ListBox listBoxDisplay;
         private System.Windows.Forms.TextBox textBoxInput;
-        private System.Windows.Forms.Button buttonSearch;
+        private System.Windows.Forms.Button buttonBinarySearch;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.Button buttonLinearSearch;
+        private System.Windows.Forms.Button buttonEdit;
+        private System.Windows.Forms.Button buttonTag;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripStatusLabel statusStrip;
