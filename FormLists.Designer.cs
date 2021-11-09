@@ -1,7 +1,7 @@
 ﻿
 namespace MyLists
 {
-    partial class FormLists
+    partial class VehicleRegistrationManager
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,7 @@ namespace MyLists
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBoxDisplay = new System.Windows.Forms.ListBox();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonBinarySearch = new System.Windows.Forms.Button();
@@ -43,6 +44,7 @@ namespace MyLists
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusStrip = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -82,7 +84,7 @@ namespace MyLists
             this.buttonAdd.TabIndex = 3;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
             // buttonOpen
             // 
@@ -91,6 +93,7 @@ namespace MyLists
             this.buttonOpen.Size = new System.Drawing.Size(75, 75);
             this.buttonOpen.TabIndex = 4;
             this.buttonOpen.Text = "Open";
+            this.toolTip.SetToolTip(this.buttonOpen, "Kirss");
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
@@ -132,6 +135,7 @@ namespace MyLists
             this.buttonLinearSearch.TabIndex = 8;
             this.buttonLinearSearch.Text = "Linear Search";
             this.buttonLinearSearch.UseVisualStyleBackColor = true;
+            this.buttonLinearSearch.Click += new System.EventHandler(this.ButtonLinearSearch_Click);
             // 
             // buttonEdit
             // 
@@ -176,7 +180,7 @@ namespace MyLists
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // FormLists
+            // VehicleRegistrationManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,8 +198,8 @@ namespace MyLists
             this.Controls.Add(this.buttonBinarySearch);
             this.Controls.Add(this.textBoxInput);
             this.Controls.Add(this.listBoxDisplay);
-            this.Name = "FormLists";
-            this.Text = "List of Colours";
+            this.Name = "VehicleRegistrationManager";
+            this.Text = "Vehicle Registration Manager";
             this.Load += new System.EventHandler(this.FormLists_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -221,6 +225,7 @@ namespace MyLists
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripStatusLabel statusStrip;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

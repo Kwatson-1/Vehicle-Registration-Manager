@@ -13,9 +13,9 @@ using System.Windows.Forms;
 // 8/11/2021
 namespace MyLists
 {
-    public partial class FormLists : Form
+    public partial class VehicleRegistrationManager : Form
     {
-        public FormLists()
+        public VehicleRegistrationManager()
         {
             InitializeComponent();
         }
@@ -29,19 +29,19 @@ namespace MyLists
                 listBoxDisplay.Items.Add(color);
             }
         }
-        #region Search
+        #region Binary Search
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
             if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
-                MessageBox.Show("found");
+                MessageBox.Show("Plate found.");
             else
-                MessageBox.Show("Not Found");
-            textBoxInput.Clear();
+                MessageBox.Show("Plate not Found.");
+                textBoxInput.Clear();
         }
         #endregion
         #region Add
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
             bool alreadyExists = RegoList.Contains(textBoxInput.Text);
             if (!alreadyExists)
@@ -114,7 +114,7 @@ namespace MyLists
             }
             catch (IOException)
             {
-                MessageBox.Show("cannot open file");
+                MessageBox.Show("Cannot open file");
             }
         }
         #endregion
@@ -223,6 +223,21 @@ namespace MyLists
             textBoxInput.Clear();
             textBoxInput.Focus();
             statusStrip.Text = "Application reset successfully.";
+        }
+
+        private void ButtonLinearSearch_Click(object sender, EventArgs e)
+        {
+            foreach(String element in RegoList)
+            {
+                if(textBoxInput.Text == element)
+                {
+                    MessageBox.Show("Plate found.");
+                    return;
+                }
+            }
+            MessageBox.Show("Plate not Found.");
+            textBoxInput.Clear();
+            textBoxInput.Focus();
         }
         #endregion
         //Path.GetFileNameWithoutExtensions(currentFileName);
