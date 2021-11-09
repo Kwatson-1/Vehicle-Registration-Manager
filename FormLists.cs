@@ -19,7 +19,7 @@ namespace MyLists
         {
             InitializeComponent();
         }
-        List<string> RegoList = new List<string>() { "1FBK-235", "1CKR-085", "1GEU-069", "1YOB-758", "1KAP-084", "1APR-016", "3DYX-773" };
+        List<string> RegoList = new List<string>();
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
@@ -53,19 +53,19 @@ namespace MyLists
             {
                 MessageBox.Show("Please enter a valid rego plate.");
             }
+            textBoxInput.Focus();
         }
         #endregion
         #region Delete
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-            RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-            DisplayList();
+            Delete();
         }
         #endregion
+        #region Open
         private void buttonOpen_Click(object sender, EventArgs e)
         {
-            string fileName = "demo_nn.txt";
+            string fileName = "demo_00.txt";
             OpenFileDialog OpenBinary = new OpenFileDialog();
             DialogResult sr = OpenBinary.ShowDialog();
             if (sr == DialogResult.OK)
@@ -90,6 +90,7 @@ namespace MyLists
                 MessageBox.Show("cannot open file");
             }
         }
+        #endregion
         #region Save
         private void buttonSave_Click(object sender, EventArgs e)
         {
@@ -125,5 +126,50 @@ namespace MyLists
         {
             DisplayList();
         }
+
+        private void listBoxDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                textBoxInput.Text = listBoxDisplay.SelectedItem.ToString();
+                textBoxInput.Select();
+            }
+        }
+
+        private void listBoxDisplay_DoubleClick(object sender, EventArgs e)
+        {
+            Delete();
+        }
+        private void Delete()
+        {
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                DisplayList();
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+            }
+            else if (listBoxDisplay.SelectedIndex == null)
+            {
+                statusStrip.Text = ("There is currently no items in the list to delete.");
+            }
+            else
+            {
+                statusStrip.Text = ("Please select a valid item from the list box.");
+            }
+        }
+        //Path.GetFileNameWithoutExtensions(currentFileName);
+        //string strnumy = currentFileName.Remove(0,5)
+        //int num = int.Parse(strnumy)
+        //num++
+        //String newValue
+        //if(num < 9)
+        //newValue = "0" + num.ToString();
+        //else
+        //newValue = num.ToString();
+        //String newfilename = "demo_" + newValue + ".txt"
+        //SaveTextFile(newFileName)
     }
+    
 }

@@ -42,6 +42,8 @@ namespace MyLists
             this.button4 = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.statusStrip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,6 +54,8 @@ namespace MyLists
             this.listBoxDisplay.Name = "listBoxDisplay";
             this.listBoxDisplay.Size = new System.Drawing.Size(222, 446);
             this.listBoxDisplay.TabIndex = 0;
+            this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBoxDisplay_MouseClick);
+            this.listBoxDisplay.DoubleClick += new System.EventHandler(this.listBoxDisplay_DoubleClick);
             // 
             // textBoxInput
             // 
@@ -148,6 +152,8 @@ namespace MyLists
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip});
             this.statusStrip1.Location = new System.Drawing.Point(0, 529);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(457, 22);
@@ -162,6 +168,12 @@ namespace MyLists
             this.pictureBox1.Size = new System.Drawing.Size(75, 75);
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(70, 17);
+            this.statusStrip.Text = "Status Label";
             // 
             // FormLists
             // 
@@ -184,6 +196,8 @@ namespace MyLists
             this.Name = "FormLists";
             this.Text = "List of Colours";
             this.Load += new System.EventHandler(this.FormLists_Load);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -205,6 +219,7 @@ namespace MyLists
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripStatusLabel statusStrip;
     }
 }
 
