@@ -142,6 +142,7 @@ namespace MyLists
         }
         private void Delete()
         {
+            bool isEmpty = !RegoList.Any();
             if (listBoxDisplay.SelectedIndex != -1)
             {
                 listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
@@ -150,7 +151,7 @@ namespace MyLists
                 textBoxInput.Clear();
                 textBoxInput.Focus();
             }
-            else if (listBoxDisplay.SelectedIndex == null)
+            else if (isEmpty)
             {
                 statusStrip.Text = ("There is currently no items in the list to delete.");
             }
