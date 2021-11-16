@@ -200,6 +200,7 @@ namespace MyLists
             this.Controls.Add(this.listBoxDisplay);
             this.Name = "VehicleRegistrationManager";
             this.Text = "Vehicle Registration Manager";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VehicleRegistrationManager_FormClosed);
             this.Load += new System.EventHandler(this.FormLists_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

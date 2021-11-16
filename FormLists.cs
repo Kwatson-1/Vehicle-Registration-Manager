@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 // Kyle Watson
 // 8/11/2021
+// Vehicle Registration Manager
 namespace MyLists
 {
     public partial class VehicleRegistrationManager : Form
@@ -19,7 +20,11 @@ namespace MyLists
         {
             InitializeComponent();
         }
+        
         List<string> RegoList = new List<string>();
+        string currentFileName = "";
+
+        #region Display List Method
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
@@ -29,6 +34,7 @@ namespace MyLists
                 listBoxDisplay.Items.Add(color);
             }
         }
+        #endregion
         #region Binary Search
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
@@ -92,22 +98,26 @@ namespace MyLists
         #region Open
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            string fileName = "demo_00.txt";
-            OpenFileDialog OpenBinary = new OpenFileDialog();
-            DialogResult sr = OpenBinary.ShowDialog();
+            string fileName = "";
+            OpenFileDialog OpenText = new OpenFileDialog();
+            OpenText.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            DialogResult sr = OpenText.ShowDialog();
             if (sr == DialogResult.OK)
             {
-                fileName = OpenBinary.FileName;
+                fileName = OpenText.FileName;
             }
+            currentFileName = fileName;
             try
             {
                 RegoList.Clear();
-                using (Stream stream = File.Open(fileName, FileMode.Open))
+                using (StreamReader reader = new StreamReader(File.OpenRead(fileName)))
+                //(Stream stream = File.Open(fileName, FileMode.Open))
                 {
-                    BinaryFormatter binaryFormatter = new BinaryFormatter();
-                    while (stream.Position < stream.Length)
+                    //BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    while (!reader.EndOfStream)
+                        //(stream.Position < stream.Length)
                     {
-                        RegoList.Add((string)binaryFormatter.Deserialize(stream));
+                        RegoList.Add(reader.ReadLine());
                     }
                 }
                 DisplayList();
@@ -116,44 +126,38 @@ namespace MyLists
             {
                 MessageBox.Show("Cannot open file");
             }
+            catch (System.ArgumentException)
+            {
+                MessageBox.Show("File path cannot be empty.");
+            }
         }
         #endregion
         #region Save
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            string fileName = "Rainbow.bin";
-            SaveFileDialog saveBinary = new SaveFileDialog();
-            DialogResult sr = saveBinary.ShowDialog();
-            if(sr == DialogResult.Cancel)
+            string fileName = "";
+            SaveFileDialog saveText = new SaveFileDialog();
+            saveText.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            saveText.Filter = "Txt files (*.txt)|*.txt| All files (*.*)|*.*";
+            DialogResult sr = saveText.ShowDialog();
+            if (sr == DialogResult.OK)
             {
-                saveBinary.FileName = fileName;
+                fileName = saveText.FileName;
             }
-            if(sr == DialogResult.OK)
+            if (sr == DialogResult.Cancel)
             {
-                fileName = saveBinary.FileName;
+                fileName = saveText.FileName;
             }
-            try
-            {
-                using (Stream stream = File.Open(fileName, FileMode.Create))
-                {
-                    BinaryFormatter binFormatter = new BinaryFormatter();
-                    foreach (var item in RegoList)
-                    {
-                        binFormatter.Serialize(stream, item);
-                    }
-                }
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("cannot save file");
-            }
+            Save(fileName);
         }
         #endregion
+        #region Load
         private void FormLists_Load(object sender, EventArgs e)
         {
             DisplayList();
         }
-
+        #endregion
+        #region Highlight Selection Method
         private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             if (listBoxDisplay.SelectedIndex != -1)
@@ -162,6 +166,7 @@ namespace MyLists
                 textBoxInput.Select();
             }
         }
+        #endregion
         #region Double click delete
         private void ListBoxDisplay_DoubleClick(object sender, EventArgs e)
         {
@@ -192,9 +197,9 @@ namespace MyLists
             {
 
             }
-
         }
-
+        #endregion
+        #region Edit
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
             
@@ -215,7 +220,8 @@ namespace MyLists
             }
 
         }
-
+        #endregion
+        #region Reset
         private void buttonReset_Click(object sender, EventArgs e)
         {
             RegoList.Clear();
@@ -224,7 +230,8 @@ namespace MyLists
             textBoxInput.Focus();
             statusStrip.Text = "Application reset successfully.";
         }
-
+        #endregion
+        #region Linear Search
         private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
             foreach(String element in RegoList)
@@ -240,6 +247,58 @@ namespace MyLists
             textBoxInput.Focus();
         }
         #endregion
+        #region Close form method
+        private void VehicleRegistrationManager_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                int fileNumber = int.Parse(Path.GetFileNameWithoutExtension(currentFileName).Remove(0,5));
+                fileNumber++;
+                String newValue;
+                if (fileNumber <= 10)
+                {
+                    newValue = "0" + fileNumber.ToString();
+                }
+                else
+                {
+                    newValue = fileNumber.ToString();
+                }
+                String newFileName = "demo_" + newValue + ".txt";
+                Save(newFileName);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Error!");
+            }
+            catch
+            {
+                return;
+            }
+
+
+        }
+        #endregion
+        public void Save(string fileName)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(fileName, false))
+                {
+                    foreach (var item in RegoList)
+                    {
+                        writer.WriteLine(item);
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("cannot save file");
+            }
+        }
+        private void Tag()
+        {
+
+        }
         //Path.GetFileNameWithoutExtensions(currentFileName);
         //string strnumy = currentFileName.Remove(0,5)
         //int num = int.Parse(strnumy)
