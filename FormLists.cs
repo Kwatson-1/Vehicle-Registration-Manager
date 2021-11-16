@@ -295,10 +295,31 @@ namespace MyLists
                 MessageBox.Show("cannot save file");
             }
         }
-        private void Tag()
+        private void TagRego()
         {
+            int tagIndex = listBoxDisplay.SelectedIndex;
+            tagItem = RegoList[tagIndex];
 
+            //Console.WriteLine(tagItem);
+            if (tagItem.StartsWith("z"))
+            {
+                tagItem = tagItem.Remove(0, 1);
+                DisplayList();
+            }
+            else
+            {
+                tagItem = "z" + tagItem;
+                listBoxDisplay.SelectedItem = tagItem;
+                DisplayList();
+                
+            }
         }
+
+        private void buttonTag_Click(object sender, EventArgs e)
+        {
+            TagRego();
+        }
+
         //Path.GetFileNameWithoutExtensions(currentFileName);
         //string strnumy = currentFileName.Remove(0,5)
         //int num = int.Parse(strnumy)

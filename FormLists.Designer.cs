@@ -155,6 +155,7 @@ namespace MyLists
             this.buttonTag.TabIndex = 10;
             this.buttonTag.Text = "Tag";
             this.buttonTag.UseVisualStyleBackColor = true;
+            this.buttonTag.Click += new System.EventHandler(this.buttonTag_Click);
             // 
             // statusStrip1
             // 
