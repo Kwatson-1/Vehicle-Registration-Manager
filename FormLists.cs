@@ -49,12 +49,12 @@ namespace MyLists
         #region Add
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text.ToUpper());
             if (!alreadyExists)
             {
                 if (textBoxInput.Text != string.Empty)
                 {
-                    RegoList.Add(textBoxInput.Text);
+                    RegoList.Add(textBoxInput.Text.ToUpper());
                     DisplayList();
                     textBoxInput.Clear();
                 }
@@ -297,25 +297,32 @@ namespace MyLists
         }
         private void TagRego()
         {
-            int tagIndex = listBoxDisplay.SelectedIndex;
-            tagItem = RegoList[tagIndex];
+            try
+            {
+                string tagIndexString = listBoxDisplay.SelectedIndex.ToString();
+                int tagIndex = Int32.Parse(tagIndexString);
+                string tagPlate = RegoList[tagIndex];
+                if (tagPlate.StartsWith("z"))
+                {
+                    tagPlate = tagPlate.Remove(0, 1);
+                }
+                else
+                {
+                    tagPlate = "z" + tagPlate;
+                }
+                RegoList[tagIndex] = tagPlate;
+                textBoxInput.Clear();
+                textBoxInput.Focus();
+                DisplayList();
+            }
+            catch(System.ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("Please select a valid plate for tagging.");
+            }
 
-            //Console.WriteLine(tagItem);
-            if (tagItem.StartsWith("z"))
-            {
-                tagItem = tagItem.Remove(0, 1);
-                DisplayList();
-            }
-            else
-            {
-                tagItem = "z" + tagItem;
-                listBoxDisplay.SelectedItem = tagItem;
-                DisplayList();
-                
-            }
         }
 
-        private void buttonTag_Click(object sender, EventArgs e)
+        private void ButtonTag_Click(object sender, EventArgs e)
         {
             TagRego();
         }

@@ -73,6 +73,7 @@ namespace MyLists
             this.buttonBinarySearch.Size = new System.Drawing.Size(75, 75);
             this.buttonBinarySearch.TabIndex = 2;
             this.buttonBinarySearch.Text = "Binary Search";
+            this.toolTip.SetToolTip(this.buttonBinarySearch, "Binary search for a specific rego plate.");
             this.buttonBinarySearch.UseVisualStyleBackColor = true;
             this.buttonBinarySearch.Click += new System.EventHandler(this.ButtonSearch_Click);
             // 
@@ -83,6 +84,7 @@ namespace MyLists
             this.buttonAdd.Size = new System.Drawing.Size(75, 75);
             this.buttonAdd.TabIndex = 3;
             this.buttonAdd.Text = "Add";
+            this.toolTip.SetToolTip(this.buttonAdd, "Add new rego plate.");
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
@@ -114,6 +116,7 @@ namespace MyLists
             this.buttonDelete.Size = new System.Drawing.Size(75, 75);
             this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Delete";
+            this.toolTip.SetToolTip(this.buttonDelete, "Delete rego plate.");
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
@@ -124,6 +127,7 @@ namespace MyLists
             this.buttonReset.Size = new System.Drawing.Size(75, 75);
             this.buttonReset.TabIndex = 7;
             this.buttonReset.Text = "Reset";
+            this.toolTip.SetToolTip(this.buttonReset, "Clears all data fields.");
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
@@ -134,6 +138,7 @@ namespace MyLists
             this.buttonLinearSearch.Size = new System.Drawing.Size(75, 75);
             this.buttonLinearSearch.TabIndex = 8;
             this.buttonLinearSearch.Text = "Linear Search";
+            this.toolTip.SetToolTip(this.buttonLinearSearch, "Linear search for a specific rego plate.");
             this.buttonLinearSearch.UseVisualStyleBackColor = true;
             this.buttonLinearSearch.Click += new System.EventHandler(this.ButtonLinearSearch_Click);
             // 
@@ -144,6 +149,7 @@ namespace MyLists
             this.buttonEdit.Size = new System.Drawing.Size(75, 75);
             this.buttonEdit.TabIndex = 9;
             this.buttonEdit.Text = "Edit";
+            this.toolTip.SetToolTip(this.buttonEdit, "Edit or update an existing rego plate.");
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
@@ -154,8 +160,9 @@ namespace MyLists
             this.buttonTag.Size = new System.Drawing.Size(75, 75);
             this.buttonTag.TabIndex = 10;
             this.buttonTag.Text = "Tag";
+            this.toolTip.SetToolTip(this.buttonTag, "Tags a plate with the prefix \'z\'.");
             this.buttonTag.UseVisualStyleBackColor = true;
-            this.buttonTag.Click += new System.EventHandler(this.buttonTag_Click);
+            this.buttonTag.Click += new System.EventHandler(this.ButtonTag_Click);
             // 
             // statusStrip1
             // 
@@ -180,6 +187,10 @@ namespace MyLists
             this.pictureBox1.Size = new System.Drawing.Size(75, 75);
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
+            // 
+            // toolTip
+            // 
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // VehicleRegistrationManager
             // 
