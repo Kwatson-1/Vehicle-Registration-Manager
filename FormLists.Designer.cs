@@ -59,6 +59,7 @@ namespace MyLists
             this.toolTip.SetToolTip(this.listBoxDisplay, "Rego plate information will be displayed here");
             this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseClick);
             this.listBoxDisplay.DoubleClick += new System.EventHandler(this.ListBoxDisplay_DoubleClick);
+            this.listBoxDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBoxDisplay_MouseDown);
             // 
             // textBoxInput
             // 
@@ -217,6 +218,7 @@ namespace MyLists
             this.Text = "Vehicle Registration Manager";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.VehicleRegistrationManager_FormClosed);
             this.Load += new System.EventHandler(this.FormLists_Load);
+            this.Click += new System.EventHandler(this.VehicleRegistrationManager_Click);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
