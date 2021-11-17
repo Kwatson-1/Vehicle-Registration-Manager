@@ -22,9 +22,9 @@ namespace MyLists
         }
 
         List<string> RegoList = new List<string>();
-
         string currentFileName = "demo_00";
-        #region Display List Method
+
+        #region Display List
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
@@ -133,7 +133,7 @@ namespace MyLists
             }
         }
         #endregion
-        #region Save
+        #region Save Button
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string fileName = "";
@@ -158,7 +158,7 @@ namespace MyLists
             DisplayList();
         }
         #endregion
-        #region Highlight Selection Method
+        #region Highlight Selection
         private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             if (listBoxDisplay.SelectedIndex != -1)
@@ -168,7 +168,7 @@ namespace MyLists
             }
         }
         #endregion
-        #region Double click delete
+        #region Double Click Delete
         private void ListBoxDisplay_DoubleClick(object sender, EventArgs e)
         {
             bool isEmpty = !RegoList.Any();
@@ -244,7 +244,7 @@ namespace MyLists
             PostFunctionUtility();
         }
         #endregion
-        #region Close form method
+        #region Close Form Save
         private void VehicleRegistrationManager_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
@@ -273,6 +273,7 @@ namespace MyLists
             }
         }
         #endregion
+        #region Save Method
         public void Save(string fileName)
         {
             try
@@ -290,8 +291,9 @@ namespace MyLists
                 MessageBox.Show("cannot save file");
             }
         }
-        #region Tag Method
-        private void TagRego()
+        #endregion
+        #region Tag Button
+        private void ButtonTag_Click(object sender, EventArgs e)
         {
             try
             {
@@ -309,22 +311,17 @@ namespace MyLists
                     statusStrip.Text = "Rego tagged successfully.";
                 }
                 RegoList[tagIndex] = tagPlate;
-                PostFunctionUtility();
+                DisplayList();
+                textBoxInput.Text = tagPlate;
+                listBoxDisplay.SelectedIndex = tagIndex;
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Please select a valid plate for tagging.");
             }
-
         }
         #endregion
-        #region Tag Button
-        private void ButtonTag_Click(object sender, EventArgs e)
-        {
-            TagRego();
-        }
-        #endregion
-        #region Post function utility
+        #region Post Function Utility
         private void PostFunctionUtility()
         {
             DisplayList();
@@ -333,5 +330,23 @@ namespace MyLists
             listBoxDisplay.ClearSelected();
         }
         #endregion
+
+
+        private void VehicleRegistrationManager_Click(object sender, EventArgs e)
+        {
+            listBoxDisplay.SelectedItems.Clear();
+            listBoxDisplay.Focus();
+        }
+
+        private void listBoxDisplay_MouseDown(object sender, MouseEventArgs e)
+        {
+            Point pt = new Point(e.X, e.Y);
+            int index = listBoxDisplay.IndexFromPoint(pt);
+
+            if (index <= -1)
+            {
+                listBoxDisplay.SelectedItems.Clear();
+            }
+        }
     }
 }
