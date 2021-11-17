@@ -20,18 +20,18 @@ namespace MyLists
         {
             InitializeComponent();
         }
-        
-        List<string> RegoList = new List<string>();
-        string currentFileName = "";
 
+        List<string> RegoList = new List<string>();
+
+        string currentFileName = "demo_00";
         #region Display List Method
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
             RegoList.Sort();
-            foreach (var color in RegoList)
+            foreach (var rego in RegoList)
             {
-                listBoxDisplay.Items.Add(color);
+                listBoxDisplay.Items.Add(rego);
             }
         }
         #endregion
@@ -40,10 +40,16 @@ namespace MyLists
         {
             RegoList.Sort();
             if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
+            {
                 MessageBox.Show("Plate found.");
+                statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
+            }
             else
-                MessageBox.Show("Plate not Found.");
-                textBoxInput.Clear();
+            {
+                statusStrip.Text = "Error: rego plate not found.";
+            }
+            PostFunctionUtility();
+
         }
         #endregion
         #region Add
@@ -55,20 +61,18 @@ namespace MyLists
                 if (textBoxInput.Text != string.Empty)
                 {
                     RegoList.Add(textBoxInput.Text.ToUpper());
-                    DisplayList();
-                    textBoxInput.Clear();
+                    statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " added successfully.";
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid rego plate.");
+                    statusStrip.Text = "Error: please enter a valid rego plate.";
                 }
-                textBoxInput.Focus();
             }
             else
             {
                 statusStrip.Text = "Cannot enter a duplicate item into the list.";
-                textBoxInput.Clear();
             }
+            PostFunctionUtility();
         }
         #endregion
         #region Delete
@@ -79,19 +83,16 @@ namespace MyLists
             {
                 listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
                 RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                statusStrip.Text = "Item deleted successfully.";
-                DisplayList();
-                textBoxInput.Clear();
-                textBoxInput.Focus();
-
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully.";
+                PostFunctionUtility();
             }
             else if (isEmpty)
             {
-                statusStrip.Text = "There are currently no items in the list to delete.";
+                statusStrip.Text = "Error: there are currently no items in the list to delete.";
             }
             else
             {
-                statusStrip.Text = "Please select a valid item from the list box.";
+                statusStrip.Text = "Please select a valid plate from the list box.";
             }
         }
         #endregion
@@ -115,7 +116,7 @@ namespace MyLists
                 {
                     //BinaryFormatter binaryFormatter = new BinaryFormatter();
                     while (!reader.EndOfStream)
-                        //(stream.Position < stream.Length)
+                    //(stream.Position < stream.Length)
                     {
                         RegoList.Add(reader.ReadLine());
                     }
@@ -202,49 +203,45 @@ namespace MyLists
         #region Edit
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
-            
             String NewValue = textBoxInput.Text;
             int RegoIndex = listBoxDisplay.SelectedIndex;
             bool alreadyExists = RegoList.Contains(textBoxInput.Text);
             if (!alreadyExists)
             {
                 RegoList[RegoIndex] = NewValue;
-                DisplayList();
-                textBoxInput.Clear();
-                textBoxInput.Focus();
+                statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text.ToUpper() + "'" + " successfully.";
             }
             else
             {
-                statusStrip.Text = "Cannot enter a duplicate item into the list.";
-                textBoxInput.Clear();
+                statusStrip.Text = "Error: rego plate already exists on the list.";
             }
-
+            PostFunctionUtility();
         }
         #endregion
         #region Reset
-        private void buttonReset_Click(object sender, EventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
         {
             RegoList.Clear();
-            DisplayList();
-            textBoxInput.Clear();
-            textBoxInput.Focus();
+            PostFunctionUtility();
             statusStrip.Text = "Application reset successfully.";
         }
         #endregion
         #region Linear Search
         private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
-            foreach(String element in RegoList)
+            int counter = -1;
+            foreach (String element in RegoList)
             {
-                if(textBoxInput.Text == element)
+                counter++;
+                if (textBoxInput.Text == element)
                 {
                     MessageBox.Show("Plate found.");
+                    statusStrip.Text = "Plate found at index: " + counter;
                     return;
                 }
             }
-            MessageBox.Show("Plate not Found.");
-            textBoxInput.Clear();
-            textBoxInput.Focus();
+            MessageBox.Show("Rego plate not Found.");
+            PostFunctionUtility();
         }
         #endregion
         #region Close form method
@@ -252,7 +249,7 @@ namespace MyLists
         {
             try
             {
-                int fileNumber = int.Parse(Path.GetFileNameWithoutExtension(currentFileName).Remove(0,5));
+                int fileNumber = int.Parse(Path.GetFileNameWithoutExtension(currentFileName).Remove(0, 5));
                 fileNumber++;
                 String newValue;
                 if (fileNumber <= 10)
@@ -274,8 +271,6 @@ namespace MyLists
             {
                 return;
             }
-
-
         }
         #endregion
         public void Save(string fileName)
@@ -295,6 +290,7 @@ namespace MyLists
                 MessageBox.Show("cannot save file");
             }
         }
+        #region Tag Method
         private void TagRego()
         {
             try
@@ -305,41 +301,37 @@ namespace MyLists
                 if (tagPlate.StartsWith("z"))
                 {
                     tagPlate = tagPlate.Remove(0, 1);
+                    statusStrip.Text = "Rego untagged successfully.";
                 }
                 else
                 {
                     tagPlate = "z" + tagPlate;
+                    statusStrip.Text = "Rego tagged successfully.";
                 }
                 RegoList[tagIndex] = tagPlate;
-                textBoxInput.Clear();
-                textBoxInput.Focus();
-                DisplayList();
+                PostFunctionUtility();
             }
-            catch(System.ArgumentOutOfRangeException)
+            catch (System.ArgumentOutOfRangeException)
             {
                 MessageBox.Show("Please select a valid plate for tagging.");
             }
 
         }
-
+        #endregion
+        #region Tag Button
         private void ButtonTag_Click(object sender, EventArgs e)
         {
             TagRego();
         }
-
-        //Path.GetFileNameWithoutExtensions(currentFileName);
-        //string strnumy = currentFileName.Remove(0,5)
-        //int num = int.Parse(strnumy)
-        //num++
-        //String newValue
-        //if(num < 9)
-        //newValue = "0" + num.ToString();
-        //else
-        //newValue = num.ToString();
-        //String newfilename = "demo_" + newValue + ".txt"
-        //SaveTextFile(newFileName)
-
-        //path.getdirectoryname(application.executablePath);
+        #endregion
+        #region Post function utility
+        private void PostFunctionUtility()
+        {
+            DisplayList();
+            textBoxInput.Clear();
+            textBoxInput.Focus();
+            listBoxDisplay.ClearSelected();
+        }
+        #endregion
     }
-
 }

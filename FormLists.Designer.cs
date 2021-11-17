@@ -56,6 +56,7 @@ namespace MyLists
             this.listBoxDisplay.Name = "listBoxDisplay";
             this.listBoxDisplay.Size = new System.Drawing.Size(222, 446);
             this.listBoxDisplay.TabIndex = 0;
+            this.toolTip.SetToolTip(this.listBoxDisplay, "Rego plate information will be displayed here");
             this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseClick);
             this.listBoxDisplay.DoubleClick += new System.EventHandler(this.ListBoxDisplay_DoubleClick);
             // 
@@ -65,6 +66,7 @@ namespace MyLists
             this.textBoxInput.Name = "textBoxInput";
             this.textBoxInput.Size = new System.Drawing.Size(412, 20);
             this.textBoxInput.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxInput, "Text box for inputting information to be used by the program");
             // 
             // buttonBinarySearch
             // 
@@ -73,7 +75,7 @@ namespace MyLists
             this.buttonBinarySearch.Size = new System.Drawing.Size(75, 75);
             this.buttonBinarySearch.TabIndex = 2;
             this.buttonBinarySearch.Text = "Binary Search";
-            this.toolTip.SetToolTip(this.buttonBinarySearch, "Binary search for a specific rego plate.");
+            this.toolTip.SetToolTip(this.buttonBinarySearch, "Binary search for a specific rego plate");
             this.buttonBinarySearch.UseVisualStyleBackColor = true;
             this.buttonBinarySearch.Click += new System.EventHandler(this.ButtonSearch_Click);
             // 
@@ -84,7 +86,7 @@ namespace MyLists
             this.buttonAdd.Size = new System.Drawing.Size(75, 75);
             this.buttonAdd.TabIndex = 3;
             this.buttonAdd.Text = "Add";
-            this.toolTip.SetToolTip(this.buttonAdd, "Add new rego plate.");
+            this.toolTip.SetToolTip(this.buttonAdd, "Add a new rego plate");
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
@@ -95,7 +97,7 @@ namespace MyLists
             this.buttonOpen.Size = new System.Drawing.Size(75, 75);
             this.buttonOpen.TabIndex = 4;
             this.buttonOpen.Text = "Open";
-            this.toolTip.SetToolTip(this.buttonOpen, "Kirss");
+            this.toolTip.SetToolTip(this.buttonOpen, "Load data from a pre-existing text file");
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
@@ -106,6 +108,7 @@ namespace MyLists
             this.buttonSave.Size = new System.Drawing.Size(75, 75);
             this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Save";
+            this.toolTip.SetToolTip(this.buttonSave, "Save data to a text file");
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
@@ -116,7 +119,7 @@ namespace MyLists
             this.buttonDelete.Size = new System.Drawing.Size(75, 75);
             this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Delete";
-            this.toolTip.SetToolTip(this.buttonDelete, "Delete rego plate.");
+            this.toolTip.SetToolTip(this.buttonDelete, "Delete selected rego plate");
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
@@ -127,9 +130,9 @@ namespace MyLists
             this.buttonReset.Size = new System.Drawing.Size(75, 75);
             this.buttonReset.TabIndex = 7;
             this.buttonReset.Text = "Reset";
-            this.toolTip.SetToolTip(this.buttonReset, "Clears all data fields.");
+            this.toolTip.SetToolTip(this.buttonReset, "Clear all data fields");
             this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
             // buttonLinearSearch
             // 
@@ -138,7 +141,7 @@ namespace MyLists
             this.buttonLinearSearch.Size = new System.Drawing.Size(75, 75);
             this.buttonLinearSearch.TabIndex = 8;
             this.buttonLinearSearch.Text = "Linear Search";
-            this.toolTip.SetToolTip(this.buttonLinearSearch, "Linear search for a specific rego plate.");
+            this.toolTip.SetToolTip(this.buttonLinearSearch, "Linear search for a specific rego plate");
             this.buttonLinearSearch.UseVisualStyleBackColor = true;
             this.buttonLinearSearch.Click += new System.EventHandler(this.ButtonLinearSearch_Click);
             // 
@@ -149,7 +152,7 @@ namespace MyLists
             this.buttonEdit.Size = new System.Drawing.Size(75, 75);
             this.buttonEdit.TabIndex = 9;
             this.buttonEdit.Text = "Edit";
-            this.toolTip.SetToolTip(this.buttonEdit, "Edit or update an existing rego plate.");
+            this.toolTip.SetToolTip(this.buttonEdit, "Update an existing rego plate");
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
@@ -160,7 +163,7 @@ namespace MyLists
             this.buttonTag.Size = new System.Drawing.Size(75, 75);
             this.buttonTag.TabIndex = 10;
             this.buttonTag.Text = "Tag";
-            this.toolTip.SetToolTip(this.buttonTag, "Tags a plate with the prefix \'z\'.");
+            this.toolTip.SetToolTip(this.buttonTag, "Tag or untag the selected plate with the prefix \'z\'");
             this.buttonTag.UseVisualStyleBackColor = true;
             this.buttonTag.Click += new System.EventHandler(this.ButtonTag_Click);
             // 
@@ -172,7 +175,7 @@ namespace MyLists
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(457, 22);
             this.statusStrip1.TabIndex = 11;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip1.Text = "statusStrip";
             // 
             // statusStrip
             // 
