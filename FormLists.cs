@@ -20,7 +20,7 @@ namespace MyLists
         {
             InitializeComponent();
         }
-
+        // Initialisation of List and initial file name.
         List<string> RegoList = new List<string>();
         string currentFileName = "demo_00";
 
