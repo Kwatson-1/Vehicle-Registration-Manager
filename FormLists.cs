@@ -54,13 +54,12 @@ namespace MyLists
             }
             else
             {
-                statusStrip.Text = "Error: rego plate not found.";
             }
             PostFunctionUtility();
 
         }
         #endregion
-        #region Button Add
+        #region Button Enter
         // Method for adding an element to the List and displaying it.
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
@@ -79,7 +78,7 @@ namespace MyLists
             }
             else
             {
-                statusStrip.Text = "Cannot enter a duplicate item into the list.";
+                statusStrip.Text = "Error: cannot enter a duplicate item into the list.";
             }
             PostFunctionUtility();
         }
@@ -88,22 +87,7 @@ namespace MyLists
         // Method for deleting an element off the list.
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
-            bool isEmpty = !RegoList.Any();
-            if (listBoxDisplay.SelectedIndex != -1)
-            {
-                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully.";
-                PostFunctionUtility();
-            }
-            else if (isEmpty)
-            {
-                statusStrip.Text = "Error: there are currently no items in the list to delete.";
-            }
-            else
-            {
-                statusStrip.Text = "Please select a valid plate from the list box.";
-            }
+            DeleteMethod();
         }
         #endregion
         #region Button Open
@@ -164,30 +148,13 @@ namespace MyLists
         }
         #endregion
         #region Double Click Delete
+        // Opens a dialogue box asking if the user wants to delete an item from a List when double clicked.
         private void ListBoxDisplay_DoubleClick(object sender, EventArgs e)
         {
-            bool isEmpty = !RegoList.Any();
             DialogResult dialogResult = MessageBox.Show("Do you want to delete this item?", "Delete Confirmation", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                if (listBoxDisplay.SelectedIndex != -1)
-                {
-                    listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-                    RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                    statusStrip.Text = "Item deleted successfully.";
-                    DisplayList();
-                    textBoxInput.Clear();
-                    textBoxInput.Focus();
-
-                }
-                else if (isEmpty)
-                {
-                    statusStrip.Text = "There are currently no items in the list to delete.";
-                }
-                else
-                {
-                    statusStrip.Text = "Please select a valid item from the list box.";
-                }
+                DeleteMethod();
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -196,11 +163,12 @@ namespace MyLists
         }
         #endregion
         #region Button Edit
+        // Button for editing the selected rego plate.
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
-            String NewValue = textBoxInput.Text;
+            String NewValue = textBoxInput.Text.ToUpper();
             int RegoIndex = listBoxDisplay.SelectedIndex;
-            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text.ToUpper());
             try
             {
                 if (!alreadyExists)
@@ -220,7 +188,7 @@ namespace MyLists
             }
         }
         #endregion
-        #region Reset
+        #region Button Reset
         private void ButtonReset_Click(object sender, EventArgs e)
         {
             RegoList.Clear();
@@ -235,7 +203,7 @@ namespace MyLists
             foreach (String element in RegoList)
             {
                 counter++;
-                if (textBoxInput.Text == element)
+                if (textBoxInput.Text.ToUpper() == element)
                 {
                     MessageBox.Show("Plate found.");
                     statusStrip.Text = "Plate found at index: " + counter;
@@ -243,10 +211,13 @@ namespace MyLists
                 }
             }
             MessageBox.Show("Rego plate not Found.");
-            PostFunctionUtility();
+            textBoxInput.Clear();
+            listBoxDisplay.ClearSelected();
+            textBoxInput.Focus();
         }
         #endregion
         #region Close Form Save
+        // Saves the form automatically when closed and increments the save name by 1.
         private void VehicleRegistrationManager_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
@@ -276,6 +247,7 @@ namespace MyLists
         }
         #endregion
         #region Save Method
+        // Method for iterating through the rego list and writing it to an external text file.
         public void Save(string fileName)
         {
             try
@@ -310,12 +282,12 @@ namespace MyLists
                 if (tagPlate.StartsWith("z"))
                 {
                     tagPlate = tagPlate.Remove(0, 1);
-                    statusStrip.Text = "Rego untagged successfully.";
+                    statusStrip.Text = "Rego plate untagged successfully.";
                 }
                 else
                 {
                     tagPlate = "z" + tagPlate;
-                    statusStrip.Text = "Rego tagged successfully.";
+                    statusStrip.Text = "Rego plate tagged successfully.";
                 }
                 RegoList[tagIndex] = tagPlate;
                 DisplayList();
@@ -324,7 +296,7 @@ namespace MyLists
             }
             catch (System.ArgumentOutOfRangeException)
             {
-                MessageBox.Show("Please select a valid plate for tagging.");
+                statusStrip.Text = "Error: please select a valid rego plate for tagging.";
             }
         }
         #endregion
@@ -365,6 +337,35 @@ namespace MyLists
             if (index <= -1)
             {
                 listBoxDisplay.SelectedItems.Clear();
+            }
+        }
+        #endregion
+        #region Delete Method
+        // Method for checking if a rego has been selected and deleting it.
+        private void DeleteMethod()
+        {
+            bool isEmpty = !RegoList.Any();
+            if (RegoList.Contains(textBoxInput.Text.ToUpper()))
+            {
+                int delete = RegoList.IndexOf(textBoxInput.Text.ToUpper());
+                RegoList.RemoveAt(delete);
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully."; DisplayList();
+                PostFunctionUtility();
+            }
+            else if (listBoxDisplay.SelectedIndex != -1)
+            {
+                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully."; DisplayList();
+                PostFunctionUtility();
+            }
+            else if (isEmpty)
+            {
+                statusStrip.Text = "Error: there are currently no items in the list to delete.";
+            }
+            else
+            {
+                statusStrip.Text = "Error: please select a valid item from the list to delete.";
             }
         }
         #endregion

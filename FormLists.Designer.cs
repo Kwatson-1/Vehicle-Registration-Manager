@@ -33,7 +33,7 @@ namespace MyLists
             this.listBoxDisplay = new System.Windows.Forms.ListBox();
             this.textBoxInput = new System.Windows.Forms.TextBox();
             this.buttonBinarySearch = new System.Windows.Forms.Button();
-            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonEnter = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
@@ -80,16 +80,16 @@ namespace MyLists
             this.buttonBinarySearch.UseVisualStyleBackColor = true;
             this.buttonBinarySearch.Click += new System.EventHandler(this.ButtonSearch_Click);
             // 
-            // buttonAdd
+            // buttonEnter
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(265, 146);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(75, 75);
-            this.buttonAdd.TabIndex = 3;
-            this.buttonAdd.Text = "Add";
-            this.toolTip.SetToolTip(this.buttonAdd, "Add a new rego plate");
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+            this.buttonEnter.Location = new System.Drawing.Point(265, 146);
+            this.buttonEnter.Name = "buttonEnter";
+            this.buttonEnter.Size = new System.Drawing.Size(75, 75);
+            this.buttonEnter.TabIndex = 3;
+            this.buttonEnter.Text = "Enter";
+            this.toolTip.SetToolTip(this.buttonEnter, "Add a new rego plate");
+            this.buttonEnter.UseVisualStyleBackColor = true;
+            this.buttonEnter.Click += new System.EventHandler(this.ButtonAdd_Click);
             // 
             // buttonOpen
             // 
@@ -210,7 +210,7 @@ namespace MyLists
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonOpen);
-            this.Controls.Add(this.buttonAdd);
+            this.Controls.Add(this.buttonEnter);
             this.Controls.Add(this.buttonBinarySearch);
             this.Controls.Add(this.textBoxInput);
             this.Controls.Add(this.listBoxDisplay);
@@ -232,7 +232,7 @@ namespace MyLists
         private System.Windows.Forms.ListBox listBoxDisplay;
         private System.Windows.Forms.TextBox textBoxInput;
         private System.Windows.Forms.Button buttonBinarySearch;
-        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonEnter;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonDelete;
