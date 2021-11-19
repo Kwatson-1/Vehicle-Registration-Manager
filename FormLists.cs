@@ -20,11 +20,18 @@ namespace MyLists
         {
             InitializeComponent();
         }
-        // Initialisation of List and initial file name.
+        // Initialisation of List object and initial file name.
         List<string> RegoList = new List<string>();
         string currentFileName = "demo_00";
 
+        #region Load Form
+        private void FormLists_Load(object sender, EventArgs e)
+        {
+            DisplayList();
+        }
+        #endregion
         #region Display List
+        // Clears all items in the listBox, sorts the List and then iterate through all objects and displays them in the listBox
         private void DisplayList()
         {
             listBoxDisplay.Items.Clear();
@@ -35,7 +42,8 @@ namespace MyLists
             }
         }
         #endregion
-        #region Binary Search
+        #region Button Binary Search
+        // Sorts the List then utilizes the in-built binary search method to find an element.
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
@@ -52,7 +60,8 @@ namespace MyLists
 
         }
         #endregion
-        #region Add
+        #region Button Add
+        // Method for adding an element to the List and displaying it.
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             bool alreadyExists = RegoList.Contains(textBoxInput.Text.ToUpper());
@@ -75,7 +84,8 @@ namespace MyLists
             PostFunctionUtility();
         }
         #endregion
-        #region Delete
+        #region Button Delete
+        // Method for deleting an element off the list.
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
             bool isEmpty = !RegoList.Any();
@@ -96,12 +106,15 @@ namespace MyLists
             }
         }
         #endregion
-        #region Open
+        #region Button Open
+        // Method for opening a text file from file explorer, reading its contents and displaying them.
+        // Limited error trapping.
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
             string fileName = "";
             OpenFileDialog OpenText = new OpenFileDialog();
             OpenText.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            OpenText.Filter = "Txt files (*.txt)|*.txt| All files (*.*)|*.*";
             DialogResult sr = OpenText.ShowDialog();
             if (sr == DialogResult.OK)
             {
@@ -112,11 +125,8 @@ namespace MyLists
             {
                 RegoList.Clear();
                 using (StreamReader reader = new StreamReader(File.OpenRead(fileName)))
-                //(Stream stream = File.Open(fileName, FileMode.Open))
                 {
-                    //BinaryFormatter binaryFormatter = new BinaryFormatter();
                     while (!reader.EndOfStream)
-                    //(stream.Position < stream.Length)
                     {
                         RegoList.Add(reader.ReadLine());
                     }
@@ -129,12 +139,13 @@ namespace MyLists
             }
             catch (System.ArgumentException)
             {
-                MessageBox.Show("File path cannot be empty.");
+
             }
         }
         #endregion
-        #region Save Button
-        private void buttonSave_Click(object sender, EventArgs e)
+        #region Button Save
+        // Functionality for saving the List contents to a text file.
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             string fileName = "";
             SaveFileDialog saveText = new SaveFileDialog();
@@ -150,22 +161,6 @@ namespace MyLists
                 fileName = saveText.FileName;
             }
             Save(fileName);
-        }
-        #endregion
-        #region Load
-        private void FormLists_Load(object sender, EventArgs e)
-        {
-            DisplayList();
-        }
-        #endregion
-        #region Highlight Selection
-        private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (listBoxDisplay.SelectedIndex != -1)
-            {
-                textBoxInput.Text = listBoxDisplay.SelectedItem.ToString();
-                textBoxInput.Select();
-            }
         }
         #endregion
         #region Double Click Delete
@@ -200,22 +195,29 @@ namespace MyLists
             }
         }
         #endregion
-        #region Edit
+        #region Button Edit
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
             String NewValue = textBoxInput.Text;
             int RegoIndex = listBoxDisplay.SelectedIndex;
             bool alreadyExists = RegoList.Contains(textBoxInput.Text);
-            if (!alreadyExists)
+            try
             {
-                RegoList[RegoIndex] = NewValue;
-                statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text.ToUpper() + "'" + " successfully.";
+                if (!alreadyExists)
+                {
+                    RegoList[RegoIndex] = NewValue;
+                    statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text.ToUpper() + "'" + " successfully.";
+                }
+                else
+                {
+                    statusStrip.Text = "Error: rego plate already exists on the list.";
+                }
+                PostFunctionUtility();
             }
-            else
+            catch(System.ArgumentOutOfRangeException)
             {
-                statusStrip.Text = "Error: rego plate already exists on the list.";
+                statusStrip.Text = "Error: no rego plate to edit has been selected.";
             }
-            PostFunctionUtility();
         }
         #endregion
         #region Reset
@@ -290,9 +292,14 @@ namespace MyLists
             {
                 MessageBox.Show("cannot save file");
             }
+            catch (System.ArgumentException)
+            {
+
+            }
         }
         #endregion
-        #region Tag Button
+        #region Button Tag
+        // Tags a rego plate with the prefex 'z'. If the plate is already tagged it will remove it instead.
         private void ButtonTag_Click(object sender, EventArgs e)
         {
             try
@@ -322,6 +329,7 @@ namespace MyLists
         }
         #endregion
         #region Post Function Utility
+        // Utility method for dispalying the list, clearing the textbox input, placing focus in the text box and clearing selection simultaneously.
         private void PostFunctionUtility()
         {
             DisplayList();
@@ -330,15 +338,26 @@ namespace MyLists
             listBoxDisplay.ClearSelected();
         }
         #endregion
-
-
+        #region Highlight Selection
+        // Items clicked in the list box will be converted to a String and placed in the input text box and highlighted.
+        private void ListBoxDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxDisplay.SelectedIndex != -1)
+            {
+                textBoxInput.Text = listBoxDisplay.SelectedItem.ToString();
+                textBoxInput.Select();
+            }
+        }
+        #endregion
+        #region Clear Selection
+        // Clicking on the form will clear the focus and deselect items.
         private void VehicleRegistrationManager_Click(object sender, EventArgs e)
         {
             listBoxDisplay.SelectedItems.Clear();
             listBoxDisplay.Focus();
         }
-
-        private void listBoxDisplay_MouseDown(object sender, MouseEventArgs e)
+        // Clicking white space in the listBox will clear the selection.
+        private void ListBoxDisplay_MouseDown(object sender, MouseEventArgs e)
         {
             Point pt = new Point(e.X, e.Y);
             int index = listBoxDisplay.IndexFromPoint(pt);
@@ -348,5 +367,6 @@ namespace MyLists
                 listBoxDisplay.SelectedItems.Clear();
             }
         }
+        #endregion
     }
 }

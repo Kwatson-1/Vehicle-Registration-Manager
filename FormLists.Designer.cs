@@ -59,7 +59,7 @@ namespace MyLists
             this.toolTip.SetToolTip(this.listBoxDisplay, "Rego plate information will be displayed here");
             this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseClick);
             this.listBoxDisplay.DoubleClick += new System.EventHandler(this.ListBoxDisplay_DoubleClick);
-            this.listBoxDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBoxDisplay_MouseDown);
+            this.listBoxDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseDown);
             // 
             // textBoxInput
             // 
@@ -111,7 +111,7 @@ namespace MyLists
             this.buttonSave.Text = "Save";
             this.toolTip.SetToolTip(this.buttonSave, "Save data to a text file");
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // buttonDelete
             // 
@@ -120,7 +120,7 @@ namespace MyLists
             this.buttonDelete.Size = new System.Drawing.Size(75, 75);
             this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Delete";
-            this.toolTip.SetToolTip(this.buttonDelete, "Delete selected rego plate");
+            this.toolTip.SetToolTip(this.buttonDelete, "Remove selected rego plate");
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
