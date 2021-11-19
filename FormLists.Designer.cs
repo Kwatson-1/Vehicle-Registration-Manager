@@ -68,6 +68,7 @@ namespace MyLists
             this.textBoxInput.Size = new System.Drawing.Size(412, 20);
             this.textBoxInput.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBoxInput, "Text box for inputting information to be used by the program");
+            this.textBoxInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxInput_KeyPress);
             // 
             // buttonBinarySearch
             // 
