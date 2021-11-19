@@ -25,6 +25,7 @@ namespace MyLists
         string currentFileName = "demo_00";
 
         #region Load Form
+        // Displays the list on form load.
         private void FormLists_Load(object sender, EventArgs e)
         {
             DisplayList();
@@ -47,13 +48,14 @@ namespace MyLists
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
-            if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
+            if (RegoList.BinarySearch(textBoxInput.Text.ToUpper()) >= 0)
             {
                 MessageBox.Show("Plate found.");
                 statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
             }
             else
             {
+                MessageBox.Show("Rego plate not found.");
             }
             PostFunctionUtility();
 
@@ -369,5 +371,17 @@ namespace MyLists
             }
         }
         #endregion
+
+        private void textBoxInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (!char.IsDigit(ch) && !char.IsLetter(ch))
+            {
+                e.Handled = true;
+                statusStrip.Text = "You may only enter accepted characters which include numbers, letters and hyphens.";
+            }
+
+        }
     }
 }
