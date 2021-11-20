@@ -56,7 +56,7 @@ namespace MyLists
             this.listBoxDisplay.Name = "listBoxDisplay";
             this.listBoxDisplay.Size = new System.Drawing.Size(222, 446);
             this.listBoxDisplay.TabIndex = 0;
-            this.toolTip.SetToolTip(this.listBoxDisplay, "Rego plate information will be displayed here");
+            this.listBoxDisplay.Tag = "";
             this.listBoxDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseClick);
             this.listBoxDisplay.DoubleClick += new System.EventHandler(this.ListBoxDisplay_DoubleClick);
             this.listBoxDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListBoxDisplay_MouseDown);
@@ -64,6 +64,7 @@ namespace MyLists
             // textBoxInput
             // 
             this.textBoxInput.Location = new System.Drawing.Point(22, 14);
+            this.textBoxInput.MaxLength = 9;
             this.textBoxInput.Name = "textBoxInput";
             this.textBoxInput.Size = new System.Drawing.Size(412, 20);
             this.textBoxInput.TabIndex = 1;
