@@ -48,7 +48,7 @@ namespace MyLists
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
-            if (RegoList.BinarySearch(textBoxInput.Text.ToUpper()) >= 0)
+            if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
             {
                 MessageBox.Show("Plate found.");
                 statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
@@ -65,13 +65,13 @@ namespace MyLists
         // Method for adding an element to the List and displaying it.
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            bool alreadyExists = RegoList.Contains(textBoxInput.Text.ToUpper());
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
             if (!alreadyExists)
             {
                 if (textBoxInput.Text != string.Empty)
                 {
-                    RegoList.Add(textBoxInput.Text.ToUpper());
-                    statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " added successfully.";
+                    RegoList.Add(textBoxInput.Text);
+                    statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " added successfully.";
                 }
                 else
                 {
@@ -168,15 +168,15 @@ namespace MyLists
         // Button for editing the selected rego plate.
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
-            String NewValue = textBoxInput.Text.ToUpper();
+            String NewValue = textBoxInput.Text;
             int RegoIndex = listBoxDisplay.SelectedIndex;
-            bool alreadyExists = RegoList.Contains(textBoxInput.Text.ToUpper());
+            bool alreadyExists = RegoList.Contains(textBoxInput.Text);
             try
             {
                 if (!alreadyExists)
                 {
                     RegoList[RegoIndex] = NewValue;
-                    statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text.ToUpper() + "'" + " successfully.";
+                    statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text + "'" + " successfully.";
                 }
                 else
                 {
@@ -205,7 +205,7 @@ namespace MyLists
             foreach (String element in RegoList)
             {
                 counter++;
-                if (textBoxInput.Text.ToUpper() == element)
+                if (textBoxInput.Text == element)
                 {
                     MessageBox.Show("Plate found.");
                     statusStrip.Text = "Plate found at index: " + counter;
@@ -347,18 +347,18 @@ namespace MyLists
         private void DeleteMethod()
         {
             bool isEmpty = !RegoList.Any();
-            if (RegoList.Contains(textBoxInput.Text.ToUpper()))
+            if (RegoList.Contains(textBoxInput.Text))
             {
-                int delete = RegoList.IndexOf(textBoxInput.Text.ToUpper());
+                int delete = RegoList.IndexOf(textBoxInput.Text);
                 RegoList.RemoveAt(delete);
-                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully."; DisplayList();
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
                 PostFunctionUtility();
             }
             else if (listBoxDisplay.SelectedIndex != -1)
             {
                 listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
                 RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text.ToUpper() + "'" + " deleted successfully."; DisplayList();
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
                 PostFunctionUtility();
             }
             else if (isEmpty)
@@ -372,14 +372,15 @@ namespace MyLists
         }
         #endregion
 
-        private void textBoxInput_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBoxInput_KeyPress(object sender, KeyPressEventArgs e)
         {
+            textBoxInput.CharacterCasing = CharacterCasing.Upper;
             char ch = e.KeyChar;
-
-            if (!char.IsDigit(ch) && !char.IsLetter(ch))
+            if (!char.IsDigit(ch) && !char.IsLetter(ch) && ch != 8 && ch!= 46 && !char.IsNumber(ch))
             {
+
                 e.Handled = true;
-                statusStrip.Text = "You may only enter accepted characters which include numbers, letters and hyphens.";
+                statusStrip.Text = "Error: accepted characters include: Numbers 0-9, Letters A-Z and \"-\"";
             }
 
         }
