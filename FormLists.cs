@@ -20,6 +20,7 @@ namespace MyLists
         {
             InitializeComponent();
         }
+
         // Initialisation of List object and initial file name.
         List<string> RegoList = new List<string>();
         string currentFileName = "demo_00";
@@ -80,6 +81,26 @@ namespace MyLists
             }
         }
         #endregion
+        #region Button Save
+        // Functionality for saving the List contents to a text file.
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            string fileName = "";
+            SaveFileDialog saveText = new SaveFileDialog();
+            saveText.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            saveText.Filter = "Txt files (*.txt)|*.txt| All files (*.*)|*.*";
+            DialogResult sr = saveText.ShowDialog();
+            if (sr == DialogResult.OK)
+            {
+                fileName = saveText.FileName;
+            }
+            if (sr == DialogResult.Cancel)
+            {
+                fileName = saveText.FileName;
+            }
+            Save(fileName);
+        }
+        #endregion
         #region Button Enter
         // Method for adding an element to the List and displaying it.
         private void ButtonAdd_Click(object sender, EventArgs e)
@@ -109,26 +130,6 @@ namespace MyLists
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
             DeleteMethod();
-        }
-        #endregion
-        #region Button Save
-        // Functionality for saving the List contents to a text file.
-        private void ButtonSave_Click(object sender, EventArgs e)
-        {
-            string fileName = "";
-            SaveFileDialog saveText = new SaveFileDialog();
-            saveText.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-            saveText.Filter = "Txt files (*.txt)|*.txt| All files (*.*)|*.*";
-            DialogResult sr = saveText.ShowDialog();
-            if (sr == DialogResult.OK)
-            {
-                fileName = saveText.FileName;
-            }
-            if (sr == DialogResult.Cancel)
-            {
-                fileName = saveText.FileName;
-            }
-            Save(fileName);
         }
         #endregion
         #region Double Click Delete
@@ -206,20 +207,25 @@ namespace MyLists
         private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
             int counter = -1;
-            foreach (String element in RegoList)
+            if (listBoxDisplay.Items.Count > 0)
             {
-                counter++;
-                if (textBoxInput.Text == element)
+                foreach (String element in RegoList)
                 {
-                    MessageBox.Show("Plate found.");
-                    statusStrip.Text = "Plate found at index: " + counter;
-                    return;
+                    counter++;
+                    if (textBoxInput.Text == element)
+                    {
+                        MessageBox.Show("Plate found.");
+                        statusStrip.Text = "Plate found at index: " + counter;
+                        return;
+                    }
                 }
+                MessageBox.Show("Rego plate not Found.");
             }
-            MessageBox.Show("Rego plate not Found.");
-            textBoxInput.Clear();
-            listBoxDisplay.ClearSelected();
-            textBoxInput.Focus();
+            else
+            {
+                statusStrip.Text = "Error: list box is empty.";
+            }
+            PostFunctionUtility();
         }
         #endregion
         #region Button Binary Search
@@ -227,16 +233,23 @@ namespace MyLists
         private void ButtonSearch_Click(object sender, EventArgs e)
         {
             RegoList.Sort();
-            if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
+            if (listBoxDisplay.Items.Count > 0)
             {
-                MessageBox.Show("Plate found.");
-                statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
+                if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
+                {
+                    MessageBox.Show("Plate found.");
+                    statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Rego plate not found.");
+                }
+                PostFunctionUtility();
             }
             else
             {
-                MessageBox.Show("Rego plate not found.");
+                statusStrip.Text = "Error: list box is empty.";
             }
-            PostFunctionUtility();
 
         }
         #endregion
@@ -246,6 +259,59 @@ namespace MyLists
             RegoList.Clear();
             PostFunctionUtility();
             statusStrip.Text = "Application reset successfully.";
+        }
+        #endregion
+        #region Method Save
+        // Method for iterating through the rego list and writing it to an external text file.
+        public void Save(string fileName)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(fileName, false))
+                {
+                    foreach (var item in RegoList)
+                    {
+                        writer.WriteLine(item);
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Cannot save the file.");
+            }
+            catch (System.ArgumentException)
+            {
+
+            }
+        }
+        #endregion
+        #region Method Delete
+        // Method for checking if a rego has been selected and deleting it.
+        private void DeleteMethod()
+        {
+            bool isEmpty = !RegoList.Any();
+            if (RegoList.Contains(textBoxInput.Text))
+            {
+                int delete = RegoList.IndexOf(textBoxInput.Text);
+                RegoList.RemoveAt(delete);
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
+                PostFunctionUtility();
+            }
+            else if (listBoxDisplay.SelectedIndex != -1)
+            {
+                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
+                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
+                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
+                PostFunctionUtility();
+            }
+            else if (isEmpty)
+            {
+                statusStrip.Text = "Error: there are currently no items in the list to delete.";
+            }
+            else
+            {
+                statusStrip.Text = "Error: please select a valid item from the list to delete.";
+            }
         }
         #endregion
         #region Save on Form Close
@@ -278,32 +344,8 @@ namespace MyLists
             }
         }
         #endregion
-        #region Save Method
-        // Method for iterating through the rego list and writing it to an external text file.
-        public void Save(string fileName)
-        {
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(fileName, false))
-                {
-                    foreach (var item in RegoList)
-                    {
-                        writer.WriteLine(item);
-                    }
-                }
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("Cannot save the file.");
-            }
-            catch (System.ArgumentException)
-            {
-
-            }
-        }
-        #endregion
-        #region Post Function Utility
-        // Utility method for dispalying the list, clearing the textbox input, placing focus in the text box and clearing selection simultaneously.
+        #region Method Post Function Utility
+        // Utility method for displaying the list, clearing the textbox input, placing focus in the text box and clearing selection simultaneously.
         private void PostFunctionUtility()
         {
             DisplayList();
@@ -339,35 +381,6 @@ namespace MyLists
             if (index <= -1)
             {
                 listBoxDisplay.SelectedItems.Clear();
-            }
-        }
-        #endregion
-        #region Delete Method
-        // Method for checking if a rego has been selected and deleting it.
-        private void DeleteMethod()
-        {
-            bool isEmpty = !RegoList.Any();
-            if (RegoList.Contains(textBoxInput.Text))
-            {
-                int delete = RegoList.IndexOf(textBoxInput.Text);
-                RegoList.RemoveAt(delete);
-                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
-                PostFunctionUtility();
-            }
-            else if (listBoxDisplay.SelectedIndex != -1)
-            {
-                listBoxDisplay.SetSelected(listBoxDisplay.SelectedIndex, true);
-                RegoList.RemoveAt(listBoxDisplay.SelectedIndex);
-                statusStrip.Text = "Rego plate " + "'" + textBoxInput.Text + "'" + " deleted successfully."; DisplayList();
-                PostFunctionUtility();
-            }
-            else if (isEmpty)
-            {
-                statusStrip.Text = "Error: there are currently no items in the list to delete.";
-            }
-            else
-            {
-                statusStrip.Text = "Error: please select a valid item from the list to delete.";
             }
         }
         #endregion
