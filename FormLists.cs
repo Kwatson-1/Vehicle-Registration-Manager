@@ -12,7 +12,7 @@ using System.Windows.Forms;
 // Kyle Watson
 // 8/11/2021
 // Vehicle Registration Manager
-namespace MyLists
+namespace MyLists   
 {
     public partial class VehicleRegistrationManager : Form
     {
@@ -42,6 +42,8 @@ namespace MyLists
             {
                 listBoxDisplay.Items.Add(rego);
             }
+            textBoxInput.Focus();
+
         }
         #endregion
         #region Button Open
@@ -57,6 +59,7 @@ namespace MyLists
             if (sr == DialogResult.OK)
             {
                 fileName = OpenText.FileName;
+                statusStrip.Text = "File opened successfully";
             }
             currentFileName = fileName;
             try
@@ -143,7 +146,7 @@ namespace MyLists
             }
             else if (dialogResult == DialogResult.No)
             {
-
+                  
             }
         }
         #endregion
@@ -156,16 +159,23 @@ namespace MyLists
             bool alreadyExists = RegoList.Contains(textBoxInput.Text);
             try
             {
-                if (!alreadyExists)
+                if (RegoList.Any())
                 {
-                    RegoList[RegoIndex] = NewValue;
-                    statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text + "'" + " successfully.";
+                    if (!alreadyExists)
+                    {
+                        RegoList[RegoIndex] = NewValue;
+                        statusStrip.Text = "Rego plate edited to " + "'" + textBoxInput.Text + "'" + " successfully.";
+                    }
+                    else
+                    {
+                        statusStrip.Text = "Error: rego plate already exists on the list.";
+                    }
+                    PostFunctionUtility();
                 }
                 else
                 {
-                    statusStrip.Text = "Error: rego plate already exists on the list.";
+                    statusStrip.Text = "Error: there are currently no items on the list to edit.";
                 }
-                PostFunctionUtility();
             }
             catch(System.ArgumentOutOfRangeException)
             {
@@ -182,20 +192,27 @@ namespace MyLists
                 string tagIndexString = listBoxDisplay.SelectedIndex.ToString();
                 int tagIndex = Int32.Parse(tagIndexString);
                 string tagPlate = RegoList[tagIndex];
-                if (tagPlate.StartsWith("z"))
+                if (RegoList.Any())
                 {
-                    tagPlate = tagPlate.Remove(0, 1);
-                    statusStrip.Text = "Rego plate untagged successfully.";
+                    if (tagPlate.StartsWith("Z"))
+                    {
+                        tagPlate = tagPlate.Remove(0, 1);
+                        statusStrip.Text = "Rego plate untagged successfully.";
+                    }
+                    else
+                    {
+                        tagPlate = "Z" + tagPlate;
+                        statusStrip.Text = "Rego plate tagged successfully.";
+                    }
+                    RegoList[tagIndex] = tagPlate;
+                    DisplayList();
+                    textBoxInput.Text = tagPlate;
+                    listBoxDisplay.SelectedIndex = tagIndex;
                 }
                 else
                 {
-                    tagPlate = "z" + tagPlate;
-                    statusStrip.Text = "Rego plate tagged successfully.";
+                    statusStrip.Text = "Error: there are currently no rego plates on the list for tagging.";
                 }
-                RegoList[tagIndex] = tagPlate;
-                DisplayList();
-                textBoxInput.Text = tagPlate;
-                listBoxDisplay.SelectedIndex = tagIndex;
             }
             catch (System.ArgumentOutOfRangeException)
             {
@@ -214,11 +231,14 @@ namespace MyLists
                     counter++;
                     if (textBoxInput.Text == element)
                     {
+                        listBoxDisplay.SelectedIndex = counter;
                         MessageBox.Show("Plate found.");
-                        statusStrip.Text = "Plate found at index: " + counter;
+                        statusStrip.Text = "Rego plate found at index: " + counter;
+
                         return;
                     }
                 }
+                statusStrip.Text = "";
                 MessageBox.Show("Rego plate not Found.");
             }
             else
@@ -237,14 +257,16 @@ namespace MyLists
             {
                 if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
                 {
+                    listBoxDisplay.SelectedIndex = RegoList.BinarySearch(textBoxInput.Text);
                     MessageBox.Show("Plate found.");
                     statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text);
                 }
                 else
                 {
+                    statusStrip.Text = "";
                     MessageBox.Show("Rego plate not found.");
+                    PostFunctionUtility();
                 }
-                PostFunctionUtility();
             }
             else
             {
@@ -277,7 +299,7 @@ namespace MyLists
             }
             catch (IOException)
             {
-                MessageBox.Show("Cannot save the file.");
+                MessageBox.Show("Error: file cannot be saved.");
             }
             catch (System.ArgumentException)
             {
@@ -306,7 +328,7 @@ namespace MyLists
             }
             else if (isEmpty)
             {
-                statusStrip.Text = "Error: there are currently no items in the list to delete.";
+                statusStrip.Text = "Error: there are currently no items on the list to delete.";
             }
             else
             {
@@ -391,10 +413,10 @@ namespace MyLists
             {
                 textBoxInput.CharacterCasing = CharacterCasing.Upper;
                 char ch = e.KeyChar;
-                if (!char.IsDigit(ch) && !char.IsLetter(ch) && ch != 8 && ch != 46 && !char.IsNumber(ch))
+                if (!(char.IsControl(ch) || char.IsLetterOrDigit(ch) || ch == '-'))
                 {
                     e.Handled = true;
-                    statusStrip.Text = "Error: accepted characters include: Numbers 0-9, Letters A-Z and \"-\"";
+                    statusStrip.Text = "Error: accepted characters include: numbers 0-9, letters A-Z & hyphen";
                 }
             }
             else
