@@ -64,7 +64,7 @@ namespace MyLists
             // textBoxInput
             // 
             this.textBoxInput.Location = new System.Drawing.Point(22, 14);
-            this.textBoxInput.MaxLength = 9;
+            this.textBoxInput.MaxLength = 8;
             this.textBoxInput.Name = "textBoxInput";
             this.textBoxInput.Size = new System.Drawing.Size(412, 20);
             this.textBoxInput.TabIndex = 1;
