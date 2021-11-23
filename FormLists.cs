@@ -12,6 +12,7 @@ using System.Windows.Forms;
 // Kyle Watson
 // 8/11/2021
 // Vehicle Registration Manager
+// An application for logging and recording vehicle registrations in a large city car park.
 namespace MyLists   
 {
     public partial class VehicleRegistrationManager : Form
@@ -242,7 +243,7 @@ namespace MyLists
             }
         }
             #endregion
-            #region Button Linear Search
+        #region Button Linear Search
             private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
             int counter = -1;
