@@ -12,10 +12,12 @@ using System.Windows.Forms;
 // Kyle Watson
 // 8/11/2021
 // Vehicle Registration Manager
+// An application for logging and recording vehicle registrations in a large city car park
 namespace MyLists   
 {
     public partial class VehicleRegistrationManager : Form
     {
+        #region Initialization Components
         public VehicleRegistrationManager()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace MyLists
         // Initialisation of List object and initial file name.
         List<string> RegoList = new List<string>();
         string currentFileName = "demo_00";
-
+        #endregion
         #region Load Form
         // Displays the list on form load.
         private void FormLists_Load(object sender, EventArgs e)
@@ -48,7 +50,6 @@ namespace MyLists
         #endregion
         #region Button Open
         // Method for opening a text file from file explorer, reading its contents and displaying them.
-        // Limited error trapping.
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
             string fileName = "";
@@ -242,7 +243,8 @@ namespace MyLists
             }
         }
             #endregion
-            #region Button Linear Search
+        #region Button Linear Search
+        // Utilises a foreach loop to iterate through each element in the list and check if it is the same and the text box input.
             private void ButtonLinearSearch_Click(object sender, EventArgs e)
         {
             int counter = -1;
@@ -254,14 +256,15 @@ namespace MyLists
                     if (textBoxInput.Text == element)
                     {
                         listBoxDisplay.SelectedIndex = counter;
-                        MessageBox.Show("Plate found.");
                         statusStrip.Text = "Rego plate found at index: " + counter + ".";
+                        MessageBox.Show("Plate found.");
+
 
                         return;
                     }
                 }
                 statusStrip.Text = "";
-                MessageBox.Show("Rego plate not Found.");
+                MessageBox.Show("Rego plate not found.");
             }
             else
             {
@@ -280,8 +283,9 @@ namespace MyLists
                 if (RegoList.BinarySearch(textBoxInput.Text) >= 0)
                 {
                     listBoxDisplay.SelectedIndex = RegoList.BinarySearch(textBoxInput.Text);
-                    MessageBox.Show("Plate found.");
                     statusStrip.Text = "Rego plate found at index: " + RegoList.BinarySearch(textBoxInput.Text) + ".";
+                    MessageBox.Show("Plate found.");
+
                 }
                 else
                 {
@@ -429,6 +433,9 @@ namespace MyLists
         }
         #endregion
         #region TextBox Input Handling
+        // Text box input converted to uppercase
+        // Handling of user keyboard input to only allow control functions, letters, digits and hyphens
+        // Text box input length cannot be longer than 9 characters
         private void TextBoxInput_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (textBoxInput.Text.Length < 9)
